@@ -25,6 +25,7 @@ const Login = (_props:any) => {
     try {
       const data = await login(loginData);
       Auth.login(data.token);
+      localStorage.setItem('userId', data.userId);
     } catch (err) {
       console.error('Failed to login', err);
     }

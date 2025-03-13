@@ -2,7 +2,7 @@ import { DataTypes, type Sequelize, Model, type Optional } from 'sequelize';
 import bcrypt from 'bcrypt';
 
 interface UserAttributes {
-  id?: number;
+  id: number;
   username: string;
   password: string;
 }
@@ -38,6 +38,7 @@ export function UserFactory(sequelize: Sequelize): typeof User {
       username: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
       },
       password: {
         type: DataTypes.STRING,
@@ -47,6 +48,8 @@ export function UserFactory(sequelize: Sequelize): typeof User {
     {
       tableName: 'user',
       sequelize,
+      modelName: 'User',
+      timestamps: true,
       hooks: {
         beforeCreate: async (user: User) => {
           await user.setPassword(user.password);
@@ -59,4 +62,11 @@ export function UserFactory(sequelize: Sequelize): typeof User {
   );
 
   return User;
+}
+
+// Function to define associations AFTER both models are imported
+export const associateUser = async () => {
+  const { UserEats } = await import('./userEats.js');
+
+  User.hasMany(UserEats, { foreignKey: 'user_id', onDelete: 'CASCADE' });
 }

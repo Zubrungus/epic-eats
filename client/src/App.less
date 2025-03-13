@@ -251,6 +251,7 @@ body {
   .random-btn {
     background-color: @color-orange;
     color: @color-off-white;
+    border-radius: 25px;
   }
 
 .recipe-card{
@@ -265,16 +266,22 @@ body {
 .recipe-img{
   height: 100%;
   max-width: 40%;
-  background-color: @color-off-white;
+  background-color: #f8f8f8; /* Replace @color-off-white with the actual color */
   border-radius: 25px;
   padding: 10px;
-  object-fit: contain;
+  display: flex; /* Ensures proper alignment */
+  justify-content: center; /* Centers horizontally */
+  align-items: center; /* Centers vertically */
+  overflow: hidden; /* Prevents image from overflowing */
   
   img {
-    max-height: 100%;
-    width: auto;
+    max-width: 100%; /* Ensures it doesn’t exceed container width */
+    max-height: 100%; /* Ensures it fits inside */
+    width: auto; /* Maintains aspect ratio */
+    height: auto; /* Maintains aspect ratio */
     border-radius: 25px;
-    border: 10px;
+    border: 10px solid transparent; /* Ensures border works correctly */
+    object-fit: contain; /* Keeps full image visible */
   }
 }
 

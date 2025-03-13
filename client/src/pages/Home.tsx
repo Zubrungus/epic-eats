@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { retrieveRandomRecipe } from "../api/RandomRecipeAPI";
 import { retrieveEditorsRecipe } from "../api/EditorsRecipeAPI";
+import { fetchMealType } from "../api/MealRecipeAPI";
 
 
 interface Recipe {
@@ -102,10 +103,10 @@ const Home = (_props: any) => {
             </div>
             <div className='btn-col'>
                 <button className='meal-button random-btn' onClick={() => fetchRandomRecipe()}>Get another Epic Eat</button>
-                <button className='meal-button' onClick={() => fetchRandomRecipe()}>Breakfast</button>
-                <button className='meal-button' onClick={() => fetchRandomRecipe()}>Lunch</button>
-                <button className='meal-button' onClick={() => fetchRandomRecipe()}>Dinner</button>
-                <button className='meal-button' onClick={() => fetchRandomRecipe()}>Snack</button>
+                <button className='meal-button' onClick={() => fetchMealType ('breakfast')}>Breakfast</button>
+                <button className='meal-button' onClick={() => fetchMealType ('lunch')}>Lunch</button>
+                <button className='meal-button' onClick={() => fetchMealType ('dinner')}>Dinner</button>
+                <button className='meal-button' onClick={() => fetchMealType ('snack')}>Snack</button>
             </div>
             </section>
         </>

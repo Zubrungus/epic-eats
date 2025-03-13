@@ -37,7 +37,7 @@ const router = createBrowserRouter([
         element: <Recipe />,
       },
       {
-        path: '/myEats',
+        path: '/:id/myEats',
         element: <MyEats/>,
       },
       {
@@ -45,7 +45,7 @@ const router = createBrowserRouter([
         element: <Search/>
       },
       {
-        path: '/neweat',
+        path: '/:id/neweat',
         element: <NewEat />
       },
       {

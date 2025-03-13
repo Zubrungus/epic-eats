@@ -27,6 +27,5 @@ CREATE TABLE spoon_eats (
     summary TEXT,
     instructions TEXT,
     ingredients JSONB,
-    nuterients TEXT,
     crated_at TIMESTAMP default CURRENT_TIMESTAMP
 );

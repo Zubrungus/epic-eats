@@ -51,6 +51,14 @@ class RecipeSearchService {
 
         return parsedRandom.recipes[0];
     }
-}
+
+    async fetchMealType (searchQuery: string) {
+        const meal = searchQuery.replace(/\s/g, '_');
+
+        const searchResponse = await fetch(`${this.baseURL}/recipes/complexSearch?query=${meal}&apiKey=${this.apiKey}`);
+        const parsedRandom = await searchResponse.json();
+
+        return parsedRandom.recipes[0];
+}}
 
 export default new RecipeSearchService();

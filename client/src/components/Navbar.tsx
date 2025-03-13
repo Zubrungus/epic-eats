@@ -1,10 +1,11 @@
 import { useState, useEffect, type FormEvent, type ChangeEvent } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useNavigate } from "react-router";
 import auth from '../utils/auth';
 import sampleLogo from '../../assets/images/ee_logo.png';
 import userIcon from '../../assets/images/user-icon.png';
 import './../App.less';
+
 
 const Navbar = (props: any) => {
   const [loginCheck, setLoginCheck] = useState(false);
@@ -16,6 +17,8 @@ const Navbar = (props: any) => {
       setLoginCheck(true);
     }
   };
+
+  const { id } = useParams(); // Extract the id from URL
 
   useEffect(() => {
     console.log(loginCheck);
@@ -34,7 +37,8 @@ const Navbar = (props: any) => {
   ) => {
     const { value } = e.target;
     return props.setSearchTerm(value);
-  };
+  }
+
 
   return (
     <div className='custom-navbar'>
@@ -73,7 +77,7 @@ const Navbar = (props: any) => {
           <img className='avatar' src={userIcon}></img>
         </div>
         <div className='bottom-row'>
-          <Link to='/myEats' className='eats-button' >My Eats</Link>
+        <Link to={`/${id}/myEats`} className='eats-button' >My Eats</Link>
         </div>
       </div>
     </div>

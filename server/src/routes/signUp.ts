@@ -6,7 +6,7 @@ export const signUp = async (req: Request, res: Response) => {
   const { username, password } = req.body;
 
 try {
-    const newUser = await User.create({ username, password });
+  const newUser = await User.create({ username, password });
 
   const secretKey = process.env.JWT_SECRET_KEY || 'password';
 

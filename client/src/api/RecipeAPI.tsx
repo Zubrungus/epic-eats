@@ -1,18 +1,35 @@
-import axios from 'axios';
+import auth from '../utils/auth';
 
 const RecipeAPI = {
   createRecipe: async (recipeData: {
+    id?: number;
     title: string;
-    image_url: string;
-    source_url: string;
-    summary: string;
+    image_url?: string;
+    source_url?: string;
+    summary?: string;
     instructions: string;
-    ingredients: object[];
+    extendedIngredients: object[];
   }) => {
-    const response = await axios.post('/api/myeats', recipeData);
-    return response.data;
-  },
+    try {
+    const userId = auth.getToken();
+    const response = await fetch(`/api/recipe/${userId}/neweat`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${userId}`,
+      },
+      body: JSON.stringify(recipeData),
+    });
 
+    if (!response.ok) {
+      throw new Error('Failed to save recipe');
+    }}
+    catch (err) {
+      console.error('Error from data retrieval: ', err);
+      return Promise.reject('Could not relay search term to server');
+    }
+  },
+  
   retrieveRecipeDetails: async (id: string) => {
     try {
       const response = await fetch(

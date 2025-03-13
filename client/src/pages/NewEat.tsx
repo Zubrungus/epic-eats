@@ -1,5 +1,6 @@
 import { useState, type FormEvent, type ChangeEvent } from 'react';
 import RecipeAPI from '../api/RecipeAPI';
+import auth from '../utils/auth';
 
 interface Recipe {
     title: string;
@@ -7,7 +8,7 @@ interface Recipe {
     source_url: string;
     summary: string;
     instructions: string;
-    ingredients: Ingredients[];
+    extendedIngredients: Ingredients[];
 }
 
 interface Ingredients {
@@ -22,7 +23,7 @@ const NewEat = () => {
     source_url: '',
     summary: '',
     instructions: '',
-    ingredients: [], 
+    extendedIngredients: [], 
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -33,22 +34,22 @@ const NewEat = () => {
     const { name, value } = e.target;
 
     if (name === 'ingredients' && index !== undefined) {
-        const newIngredients = recipeData.ingredients.map((ingredient, i) =>
+        const newIngredients = recipeData.extendedIngredients.map((ingredient, i) =>
             i === index ? { ...ingredient, original: value } : ingredient
           );
-      setRecipeData({ ...recipeData, ingredients: newIngredients });
+      setRecipeData({ ...recipeData, extendedIngredients: newIngredients });
     } else {
       setRecipeData({ ...recipeData, [name]: value });
     }
   };
 
   const addIngredientField = () => {
-    setRecipeData({ ...recipeData, ingredients: [...recipeData.ingredients, { id: Date.now(), original: '' }] });
+    setRecipeData({ ...recipeData, extendedIngredients: [...recipeData.extendedIngredients, { id: Date.now(), original: '' }] });
   };
 
   const removeIngredientField = (index: number) => {
-    const newIngredients = recipeData.ingredients.filter((_, i) => i !== index);
-    setRecipeData({ ...recipeData, ingredients: newIngredients });
+    const newIngredients = recipeData.extendedIngredients.filter((_, i) => i !== index);
+    setRecipeData({ ...recipeData, extendedIngredients: newIngredients });
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -58,6 +59,11 @@ const NewEat = () => {
     setSuccess(null);
 
     try {
+      const userId = auth.getToken();
+      if (!userId) {
+        throw new Error('User ID not found in local storage');
+      }
+      
       await RecipeAPI.createRecipe(recipeData);
       setSuccess('Recipe created successfully!');
       setRecipeData({
@@ -66,7 +72,7 @@ const NewEat = () => {
         source_url: '',
         summary: '',
         instructions: '',
-        ingredients: [],
+        extendedIngredients: [],
       });
     } catch (err) {
       setError('Failed to create recipe. Please try again later.');
@@ -141,7 +147,7 @@ const NewEat = () => {
 
         <div className='form-group'>
           <label>Ingredients:</label>
-          {recipeData.ingredients.map((ingredient, index) => (
+          {recipeData.extendedIngredients.map((ingredient, index) => (
             <div key={ingredient.id} className="ingredient-input">
               <input
                 type="text"
